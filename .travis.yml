@@ -1,16 +1,14 @@
----
 language: python
 
 python:
-  - "3.0"
-  - "3.1"
-  - "3.2"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "nightly"
+  - "3.3"
+#  - "3.4"
+#  - "3.5"
+#  - "3.6"
+#  - "nightly"
 
 install:
+  - "pip install --upgrade pipenv"
   - "pipenv install --dev"
 
 script:
