@@ -7,3 +7,8 @@ selenium = "*"
 
 [dev-packages]
 pytest = "*"
+codecov = "*"
+Sphinx = "*"
+pytest-mock = "*"
+pytest-cov = "*"
+pylint = "*"

@@ -18,5 +18,18 @@ setup(
     author_email='kevinbradwick@gmail.com',
     url='https://github.com/kevbradwick/rockyroad',
     license=_license,
-    packages=find_packages(exclude=('tests', 'docs', 'example',))
+    packages=find_packages(exclude=('tests', 'docs', 'example',)),
+    install_requires=[
+        'selenium',
+    ],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Topic :: Software Development :: Testing',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+    ]
 )
