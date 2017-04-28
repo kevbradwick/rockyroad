@@ -42,11 +42,53 @@ class WebElement:
         self._cached_element = method(self._locator_value)
         return self._cached_element
 
+    def tag_name(self):
+        return self._get_element().tag_name()
 
-    @property
     def text(self):
-        """
-        The text value.
-        :return: 
-        """
-        return self._get_element().get_attribute('innerText')
+        return self._get_element().text()
+
+    def click(self):
+        return self._get_element().click()
+
+    def submit(self):
+        return self._get_element().submit()
+
+    def clear(self):
+        return self._get_element().clear()
+
+    def get_property(self, name):
+        return self._get_element().get_property(name)
+
+    def get_attribute(self, name):
+        return self._get_element().get_attribute(name)
+
+    def is_selected(self):
+        return self._get_element().is_selected()
+
+    def is_enabled(self):
+        return self._get_element().is_enabled()
+
+    def send_keys(self, *args):
+        return self._get_element().send_keys(*args)
+
+    def is_displayed(self):
+        return self._get_element().is_displayed()
+
+    def size(self):
+        return self._get_element().size()
+
+    def location(self):
+        return self._get_element().location()
+
+    def rect(self):
+        return self._get_element().rect()
+
+    def screenshot_as_base64(self):
+        return self._get_element().screenshot_as_base64()
+
+    def screenshot_as_png(self):
+        return self._get_element().screenshot_as_png()
+
+    def screenshot(self, filename):
+        return self._get_element().screenshot(filename)
