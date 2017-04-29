@@ -1,4 +1,5 @@
-from . import get_driver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class WebElement:
@@ -8,87 +9,60 @@ class WebElement:
     A WebElement represents a single object on the web page. It could be
     anything node from the DOM.
     """
-    _locator_type = None
-    _locator_value = None
-    _cached_element = None
+    _locator = None
 
     def __init__(self, element_id=None, css=None, xpath=None, class_name=None,
-                 tag_name=None):
+                 tag_name=None, link_text=None, partial_link_text=None):
         if element_id:
-            self._locator_type = 'find_element_by_id'
-            self._locator_value = element_id
+            self._locator = (By.ID, element_id,)
         elif css:
-            self._locator_type = 'find_element_by_css_selector'
-            self._locator_value = css
+            self._locator = (By.CSS_SELECTOR, css,)
         elif xpath:
-            self._locator_type = 'find_element_by_xpath'
-            self._locator_value = xpath
+            self._locator = (By.XPATH, xpath,)
         elif class_name:
-            self._locator_type = 'find_element_by_class_name'
-            self._locator_value = class_name
+            self._locator = (By.CLASS_NAME, class_name,)
         elif tag_name:
-            self._locator_type = 'find_element_by_tag_name'
-            self._locator_value = tag_name
+            self._locator = (By.TAG_NAME, tag_name,)
+        elif link_text:
+            self._locator = (By.LINK_TEXT, link_text,)
+        elif partial_link_text:
+            self._locator = (By.PARTIAL_LINK_TEXT, partial_link_text,)
         else:
             raise RuntimeError('Elements can only be matched using element_id,'
                                'css, xpath, class_name or node_name')
 
-    def _get_element(self):
-        if self._cached_element:
-            return self._cached_element
+    def __get__(self, instance, owner):
+        """
+        Provides access to the underlying WebElement
+        
+        :rtype: selenium.webdriver.remote.webelement.WebElement
+        """
+        by, locator = self._locator
 
-        driver = get_driver()
-        method = getattr(driver, self._locator_type)
-        self._cached_element = method(self._locator_value)
-        return self._cached_element
+        # add a timeout, this should be set by some configuration, for now it's
+        # 1 second.
+        WebDriverWait(instance.driver, 1000).until(
+            lambda d: d.find_element(by, locator))
 
-    def tag_name(self):
-        return self._get_element().tag_name()
+        return instance.driver.find_element(by, locator)
 
-    def text(self):
-        return self._get_element().text()
 
-    def click(self):
-        return self._get_element().click()
+class WebElements(WebElement):
 
-    def submit(self):
-        return self._get_element().submit()
+    def __get__(self, instance, owner):
+        """
+        
+        :param instance: 
+        :param owner: 
+        :rtype: str
+        :return: list
+        """
+        by, locator = self._locator
 
-    def clear(self):
-        return self._get_element().clear()
+        # add a timeout, this should be set by some configuration, for now it's
+        # 1 second.
+        WebDriverWait(instance.driver, 1000).until(
+            lambda d: d.find_element(by, locator))
 
-    def get_property(self, name):
-        return self._get_element().get_property(name)
+        return instance.driver.find_elements(by, locator)
 
-    def get_attribute(self, name):
-        return self._get_element().get_attribute(name)
-
-    def is_selected(self):
-        return self._get_element().is_selected()
-
-    def is_enabled(self):
-        return self._get_element().is_enabled()
-
-    def send_keys(self, *args):
-        return self._get_element().send_keys(*args)
-
-    def is_displayed(self):
-        return self._get_element().is_displayed()
-
-    def size(self):
-        return self._get_element().size()
-
-    def location(self):
-        return self._get_element().location()
-
-    def rect(self):
-        return self._get_element().rect()
-
-    def screenshot_as_base64(self):
-        return self._get_element().screenshot_as_base64()
-
-    def screenshot_as_png(self):
-        return self._get_element().screenshot_as_png()
-
-    def screenshot(self, filename):
-        return self._get_element().screenshot(filename)
