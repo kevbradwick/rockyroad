@@ -42,3 +42,4 @@ def set_base_url(url: str):
 def get_base_url():
     global _BASE_URL
     return _BASE_URL
+

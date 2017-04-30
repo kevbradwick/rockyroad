@@ -4,6 +4,7 @@ verify_ssl = true
 
 [packages]
 selenium = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"

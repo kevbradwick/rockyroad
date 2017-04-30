@@ -21,6 +21,7 @@ setup(
     packages=find_packages(exclude=('tests', 'docs', 'example',)),
     install_requires=[
         'selenium',
+        'requests',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
